@@ -10,7 +10,6 @@ function EditDetail() {
   const userInfo = useSelector((state) => state.editDetail);
   const { title, company, goodBad, grow, motive, date, email, id } = userInfo;
 
-  // input value(초깃값으로 이전 값 넣어줌)
   const navigate = useNavigate();
   const [editTitle, setEditTitle] = useState(title);
   const [editCompany, setEditCompany] = useState(company);
@@ -18,14 +17,12 @@ function EditDetail() {
   const [editGrow, setEditGrow] = useState(grow);
   const [editGoodBad, setEditGoodBad] = useState(goodBad);
 
-  //유효성 검사 돔요소 접근
   const titleRef = useRef('');
   const companyRef = useRef('');
   const motiveRef = useRef('');
   const growRef = useRef('');
   const goodBadRef = useRef('');
 
-  // 새로운 객체 생성
   const newInfo = {
     email,
     date,
@@ -36,11 +33,9 @@ function EditDetail() {
     goodBad: editGoodBad,
   };
 
-  // 버튼 클릭시 edit
   const editInfo = async (event) => {
     event.preventDefault();
 
-    // 유효성 검사
     if (editTitle === '') {
       alert('제목을 입력해주세요.');
       titleRef.current.focus();
@@ -62,12 +57,10 @@ function EditDetail() {
       goodBadRef.current.focus();
       return false;
     } else {
-      // firestore infos 데이터 수정
       if (confirm('수정하시겠습니까?')) {
         const infoRef = doc(db, 'infos', userInfo.id);
         await updateDoc(infoRef, newInfo);
 
-        //다시 해당 detail 페이지로 이동
         navigate(`/detail/${encode(btoa(email))}&${id}`);
       }
     }
@@ -124,7 +117,6 @@ function EditDetail() {
           </label>
         </WriteBox>
         <WriteBtn>
-          {/* navigate 이전페이지로 이동 */}
           <button onClick={() => navigate(-1)}>이전</button>
           <button onClick={editInfo}>저장</button>
         </WriteBtn>

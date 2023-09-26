@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 
 function Write() {
-  // input value
   const navigate = useNavigate();
   const [infos, setInfos] = useState([]);
   const [title, setTitle] = useState('');
@@ -17,25 +16,21 @@ function Write() {
   const [goodBad, setGoodBad] = useState('');
   const [userEmail, setUserEmail] = useState('');
 
-  // 사용자 이메일 가져오기
   useEffect(() => {
     onAuthStateChanged(auth, (users) => {
       setUserEmail(users.email);
     });
   }, []);
 
-  //유효성 검사 돔요소 접근
   const titleRef = useRef('');
   const companyRef = useRef('');
   const motiveRef = useRef('');
   const growRef = useRef('');
   const goodBadRef = useRef('');
 
-  // 버튼 클릭시 add
   const addInfo = async (event) => {
     event.preventDefault();
 
-    // 새로운 객체 생성
     const newInfo = {
       email: userEmail,
       date: new Date(),
@@ -44,10 +39,9 @@ function Write() {
       motive,
       grow,
       goodBad,
-      like: 0, // like는 초깃값을 넣어주지 않으면 NAN으로 뜨기 때문에 숫자형 0을 넣어줘야함.
+      like: 0,
     };
 
-    // 유효성 검사, 빈값으로 저장하려고 할시 alert 창 띄움.
     if (title === '') {
       alert('제목을 입력해주세요.');
       titleRef.current.focus();
@@ -73,20 +67,16 @@ function Write() {
         return [...infos, newInfo];
       });
 
-      // Firestore에서 'infos' 컬렉션에 대한 참조 생성하기
       const collectionRef = collection(db, 'infos');
-      // 'infos' 컬렉션에 newInfos 문서를 추가합니다.
       await addDoc(collectionRef, newInfo);
 
       alert('게시글 등록이 완료 되었습니다🎉');
 
-      // 렌더링 되면 input value 빈값 만들기
       setCompany('');
       setMotive('');
       setGrow('');
       setGoodBad('');
 
-      // 다시 list 페이지로 이동.
       navigate('/list');
     }
   };
@@ -160,7 +150,6 @@ function Write() {
 }
 export default Write;
 
-// 스타일드 컴포넌트
 export const Wrap = styled.div`
   background-color: #366671;
 `;
@@ -217,7 +206,7 @@ export const WriteBox = styled.form`
   }
 `;
 
-//버튼 스타일 부분
+
 export const WriteBtn = styled.div`
   margin-top: 60px;
   text-align: center;

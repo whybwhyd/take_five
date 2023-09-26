@@ -22,7 +22,6 @@ const List = () => {
     });
   }, []);
   const fetchData = async () => {
-    // collection 이름이 todos인 collection의 모든 document를 가져옵니다.
     const qusers = query(collection(db, 'users'));
     const qinfos = query(collection(db, 'infos'));
 
@@ -30,9 +29,7 @@ const List = () => {
     const querySnapshotInfos = await getDocs(qinfos);
     const initialUsers = [];
     const initialInfos = [];
-    // document의 id와 데이터를 initialTodos에 저장합니다.
-    // doc.id의 경우 따로 지정하지 않는 한 자동으로 생성되는 id입니다.
-    // doc.data()를 실행하면 해당 document의 데이터를 가져올 수 있습니다.
+
     querySnapshotUsers.forEach((doc) => {
       initialUsers.push({ id: doc.id, ...doc.data() });
     });
@@ -46,8 +43,6 @@ const List = () => {
     fetchData();
   }, []);
 
-  // 이건 밑으로 내려보내면 에러납니다
-  // 위에 두는게 좋을거 같네여
   const StListUl = styled.ul`
     display: none;
     text-align: left;
@@ -63,8 +58,6 @@ const List = () => {
     }
   `;
 
-  // 토글 정렬
-  // 중복된 값을 저지하는 함수이벤트입니다.
   const sortItems = ['최신순', '인기순'];
   const [state, setState] = useState('최신순');
   const openRef = useRef('');
@@ -75,7 +68,6 @@ const List = () => {
     changeUl.current = 'none';
   };
 
-  // 클릭시 내용의 값이 바뀌는 함수입니다.
   const changeUl = useRef('none');
   const onClickListUl = () => {
     if (changeUl.current === 'none') {
@@ -87,25 +79,17 @@ const List = () => {
     }
   };
 
-  // user와, info를 합친 객체를 배열로 반환합니다
   const newarr = [];
   users.forEach((user) => {
     lists.map((list) => {
-      //원래 {...user, ...list}였는데 순서 바꿈.
       user.email === list.email ? newarr.push({ ...list, ...user }) : null;
     });
   });
 
-  // 인기순으로 정렬되어있는 함수입니다.
   const popularList = [...newarr].sort((a, b) => b.like - a.like);
 
-  // 최신순으로 정렬되어있는 함수입니다.
-  // 현재 date값이 객체입니다. 이부분은 보안이 필요합니다.
   const newestList = [...newarr].sort((a, b) => b.date - a.date);
 
-  //
-  // 헤더 부분
-  // 로그인 버튼 클릭시 email값을 리덕스로 받아옵니다.
   const userEmail = useSelector((state) => state.loginsubmit);
   onAuthStateChanged(auth, (users) => {});
   useEffect(() => {
@@ -155,7 +139,6 @@ const List = () => {
         <StSortBox>
           <p onClick={onClickListUl}>{state || '최신순'} ▼</p>
           <StListUl ref={openRef}>
-            {/* 최신순 인기순 정렬 입니다. */}
             {sortItems.map((item, index) => {
               return (
                 <li

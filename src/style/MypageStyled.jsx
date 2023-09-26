@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 
-//화면 레이아웃
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,7 +8,6 @@ export const Layout = styled.div`
   height: 100vh;
 `;
 
-//nav바
 export const Nav = styled.div`
   position: relative;
   top: 0px;
@@ -52,14 +50,12 @@ export const NavBtn = styled.button`
     scale: 1.1;
   }
 `;
-//Main 컨테이너
 export const GridMain = styled.main`
   display: grid;
   grid-template-columns: 1fr 4fr;
   width: 98vw;
 `;
 
-//사이드바
 export const ProfileSidebar = styled.div`
   border-right: 2px solid #fff;
   margin-top: 40px;
@@ -78,7 +74,6 @@ export const SidebarSubText = styled.div`
   color: #fff;
 `;
 
-//내부 item 컨테이너
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,7 +81,6 @@ export const Container = styled.div`
   width: 900px;
   gap: 20px;
 `;
-// 프로필 이미지, 수정 버튼, 프로필 텍스트
 export const ProfileImg = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,7 +114,6 @@ export const Profile = styled.div`
   text-align: center;
   color: #fff;
 `;
-// 닉네임, global like, 자신이 쓴 글 갯수
 export const NickNameBox = styled.div`
   width: 750px;
   text-align: center;
@@ -130,7 +123,7 @@ export const NickNameBox = styled.div`
   border-bottom: 1px solid #fff;
   color: #fff;
 `;
-//소개 글
+
 export const IntroBox = styled.div`
   width: 750px;
   text-align: start;
@@ -139,7 +132,7 @@ export const IntroBox = styled.div`
   border-bottom: 1px solid #fff;
   color: #fff;
 `;
-//게시물 LIST
+
 export const WriteList = styled.ul`
   width: 750px;
   padding: 10px 10px 30px 10px;

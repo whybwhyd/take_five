@@ -94,7 +94,6 @@ export const LoginButton = styled.button`
     background-color: #33464a;
   }
 `;
-// SIDEBAR에 관한 스타일입니다.
 export const sidebar = styled.div`
   position: fixed;
   top: 0;

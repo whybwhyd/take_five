@@ -15,7 +15,6 @@ function WritingForm() {
 }
 export default WritingForm;
 
-// 스타일 컴포넌트
 const btnColor = '#92a29c';
 const btnWidth = '3.5rem';
 const transitionWidth = '13.4375rem';

@@ -1,15 +1,12 @@
 const initialState = {
-  // 이메일,닉네임,비밀번호,비밀번호 확인
   email: '',
   password: '',
   passwordCheck: '',
   nickName: '',
-  // 오류메세지
   emailMessage: '',
   passwordMessage: '',
   passwordCheckMessage: '',
   nickNameMessage: '',
-  // 유효성 검사
   isEmail: 'false',
   isNickName: 'false',
   isPassword: 'false',
@@ -17,7 +14,6 @@ const initialState = {
 };
 
 const LoginModule = (state = initialState, action) => {
-  // onchange 함수를 구현합니다.
   switch (action.type) {
     case 'CHANGE_EMAIL':
       return {
@@ -40,7 +36,6 @@ const LoginModule = (state = initialState, action) => {
         ...state,
         nickName: action.payload,
       };
-    // 오류 메세지를 띄우는 함수입니다. 조건 만족시에 따라 메세지가 달라집니다.
     case 'CHANGE_EMAIL_MESSAGE':
       const emailRule =
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -84,7 +79,6 @@ const LoginModule = (state = initialState, action) => {
             : '입력한 비밀번호와 일치합니다.✅ ',
         isPasswordCheck: state.password !== passwordCheckCurrent,
       };
-    // 칸을 빈칸으로 refresh 해주는 기능입니다.
     case 'CLEAR':
       return { email: '', password: '', passwordCheck: '', nickName: '' };
 

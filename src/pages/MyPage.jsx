@@ -21,21 +21,18 @@ function MyPage() {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  // main 요소 안에 띄워줄 data들 redux로 관리
+
   const userInfo = useSelector((state) => state.userInfo);
   const userWrite = useSelector((state) => state.userWrite);
-  // 페이지 최초 렌더링 or 새로고침 시 fetchData() 호출해서 실행
+
   useEffect(() => {
     fetchUserData();
     fetchInfoData();
   }, []);
-  // login된 auth 정보 확인
   onAuthStateChanged(auth, (users) => {
     // console.log(users);
   });
-  // firestore에서 users 컬렉션 내용 가져오는 로직
-  // where로 email feild랑 params 값이 일치하는 객체만 필터링해서 가져옴
-  // redux로 보내서 중앙 state 관리
+
   const fetchUserData = async () => {
     const dbUsers = query(
       collection(db, 'users'),
@@ -52,13 +49,11 @@ function MyPage() {
 
     dispatch(getUserInfo(...usersData));
   };
-  // firestore에서 infos 컬렉션 내용 가져오는 로직
-  // where로 email feild랑 params 값이 일치하는 객체만 필터링해서 가져옴
-  // redux로 보내서 중앙 state 관리
+
   const fetchInfoData = async () => {
     const dbWrite = query(
       collection(db, 'infos'),
-      //params값은 base64로 치환된 형태로 나오기대문에 decode하여 email값으로 다시 형태 변환
+
       where('email', '==', atob(decode(params.email)))
     );
 
@@ -70,8 +65,7 @@ function MyPage() {
     });
     dispatch(getUserWrite([...writeData]));
   };
-  // nav 바에 logout 버튼 누르면 실행되는 logout 로직
-  // 유효성 검사 실행
+
   const logout = async (event) => {
     if (confirm('로그아웃 하시겠습니까?')) {
       event.preventDefault();
@@ -79,8 +73,7 @@ function MyPage() {
       navigate('/');
     }
   };
-  // 자신이 쓴 글 리스트에 삭제하는 버튼 누르면 실행되는 delete로직
-  // 유효성 검사
+
   const deleteWrite = async (id) => {
     if (confirm('삭제 하시겠습니까?')) {
       const writeRef = doc(db, 'infos', id);
@@ -131,13 +124,12 @@ function MyPage() {
               <S.ProfileImg>
                 <S.EditBtn
                   onClick={() =>
-                    //path값에 email형태를 encode를 사용하여 base64로 암호화 치환
                     navigate(`/editprofile/${encode(btoa(userInfo.email))}`)
                   }
                 >
                   <img src={img} alt="" />
                 </S.EditBtn>
-                {/* 프로필 이미지 null병합연산자 사용하여 null,undefined가 나올 경우 /user.png로 대체 */}
+
                 <S.Img src={userInfo.imgFile ?? '/user.png'} alt="" />
                 <S.Profile>프로필</S.Profile>
               </S.ProfileImg>

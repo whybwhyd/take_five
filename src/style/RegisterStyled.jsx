@@ -47,7 +47,7 @@ export const Input = styled.input`
     outline: none;
   }
 `;
-// 인풋창 입력시 인풋창이 움직이지 않도록 조정했습니다.
+
 export const InputMessage = styled.div`
   font-weight: bold;
   font-size: 12px;
@@ -78,7 +78,7 @@ export const LoginButton = styled.button`
     background-color: #4a666d;
   }
 `;
-// 사진이 위로 오도록 z-index를 이용했습니다.
+
 export const Left = styled.img.attrs({ src: `${left}` })`
   z-index: 1;
   grid-column: 2/3;

@@ -12,48 +12,18 @@ const ListItem = ({ lists }) => {
   return (
     <>
       {
-        // 스켈레톤UI 조건입니다.
-        // 화면에 lists.legnth 의 값이 1 이상이면  firestore에서 가져온 값을 뿌려주며,
-        // lists.legnth 값이 1보다 작다면, 즉 값이 없다면? => 스켈레톤Ui를 뿌려줍니다.
-
-        // 스켈레톤 UI의 핵심 아이디어는 사용자가 콘텐츠가 로드되고 있는지 알 수 있도록
-        // 시각적인 힌트를 제공하는 것입니다.
-
-        // 스켈레톤UI는 사용자에게 로딩진행 상태를 시각적으로 전달해
-        // 사용자 경험을 향상시키고, 사용자들이 애플리케이션을 긍정적으로
-        // 인식할 수 있게 됩니다.
-
-        // 데이터 로드 자체가 빠르거나, skeleton UI가 필요하지 않는 경우는 null 체크를 사용하여 뎅이터가
-        // 없을때 대체 내용을 표시할 수 있습니다. !
-
-        // 스켈레톤의 장단점
-        // 장점은 스켈레톤은 블랭크 페이지 < 스피너 < 스켈레톤 순서대로 더 빠르다고 느껴지고,
-        // 단점은 스켈레톤을 화면마다 표시해야 되기 때문에 상대적으로 시간이나 비용이 더 듭니다.
-
-        // 이 null check방법은 바꿔야 할 거 같습니다.
-        // legnth의 값이 1과 같거나 크다면? =>  이부분은 나중에 리스트의 글이 없다면
-        // 계속 스켈레톤 이미지를 보여주는상황인게 문제입니다.
-
-        // 더 나은 경험을 위한 스켈레톤 규칙
-        // 스켈레톤은 콘텐츠의 로드를 방해하면 안됩니다. => 실제 콘텐츠는 데이터를 기용할 수 있는 시점이 되면 즉시 스켈레톤을 대체해야합니다.
-        // 스켈레톤을 디자인 할 때 애니메이션을 사용하는 것이 좋습니다. => 애니메이션은 wave, pulse 중 wave를 사용하는것이 로딩이 더 짧다고 느껴집니다.
-        // 느리고 안정된 애니메이션을 사용하는것이 로딩 시간을 더 짧게 느끼게끔 합니다.
         lists.length >= 1 ? (
           lists.map((list, index) => {
             const { imgFile, name, email, company, spec, like, id, title } =
               list;
 
             return (
-              // key={index} 여기 수정해야합니다.
               <StListItem key={index}>
                 <Link
                   className="link"
                   to={`/detail/${encode(btoa(email))}&${id}`}
                 >
                   <StListImgBox className="list-img-box">
-                    {/* firestore에 프로필 이미지가 있다면? 
-                    그 이미지를 사용하고, 
-                    없다면 기본 이미지를 사용합니다. */}
                     {imgFile ? (
                       <img src={imgFile} alt="프로필 사진입니다" />
                     ) : (
@@ -63,7 +33,6 @@ const ListItem = ({ lists }) => {
                   <StListTextBox className="list-text-box">
                     <StLikeSpan>
                       <span>{like}</span>
-                      {/* 좋아요가 1이상인 경우 속이 찬 하트로 보여짐 */}
                       <img
                         src={like > 0 ? heart : LikeImg}
                         alt="하트모양 이미지"
@@ -81,15 +50,7 @@ const ListItem = ({ lists }) => {
             );
           })
         ) : (
-          //
-          // SkeletonUI 부분
-          //
-          // null Checking으로도 문제는없지만 null을 띄워주면,
-          // 화면에 아무것도 보이지 않으므로 사용자경험을 해칠 우려가 있습니다.
           <SkeletonUi>
-            {/* <img src={imgLike} alt="로딩중" /> */}
-            {/* <img src={loading} alt="로딩중" />
-             */}
             <div class="loding">
               <svg width="300" height="300" viewBox="0 0 50 50">
                 <path

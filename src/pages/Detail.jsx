@@ -19,25 +19,20 @@ import { decode } from 'url-safe-base64';
 
 function Detail() {
   const navigate = useNavigate();
-  const param = useParams(); // params로 가져온 파라미터 형식(이메일&UID)를 split를 이용해
-  const paramEmail = param.email.split('&')[0]; //'$'기준으로 잘라 배열 형성[email,uid]
+  const param = useParams();
+  const paramEmail = param.email.split('&')[0];
   const paramId = param.email.split('&')[1];
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth, (users) => {});
-
-  // 사용자가 아닐때 수정,삭제가 안되게 하기 위해 버튼 Dom 요소 접근
   const deleteIdRef = useRef('');
   const editIdRef = useRef('');
   const prevRef = useRef('');
 
   const [userInfo, setUserInfo] = useState([]);
 
-  // firestore에서 infos, users 데이터 읽기
-
   useEffect(() => {
     const fetchData = async () => {
-      // Firestore에서 'infos','users' 컬렉션에 대한 참조 생성하기
       const dbInfos = query(collection(db, 'infos'));
       const dbUsers = query(collection(db, 'users'));
 
@@ -47,7 +42,6 @@ function Detail() {
       const initialInfos = [];
       const initialUsers = [];
 
-      // forEach를 돌면서 id와 함께 firebase에 있는 데이터 initialInfos, initialUsersdp 배열에 넣어주기
       querySnapshotInfo.forEach((doc) => {
         initialInfos.push({ id: doc.id, ...doc.data() });
       });
@@ -55,23 +49,18 @@ function Detail() {
         initialUsers.push({ id: doc.id, ...doc.data() });
       });
 
-      // filter를 이용해 (컬렉션 infos 데이터에서)
-      // 1. url 파라미터부분에 이메일과 firestore 데이터 배열로 가져온 이메일 중 같은 데이터 찾기 (게시물 작성한 사용자 찾기)
-      // 2. 그 중 url 파라미터 부분에 UID와 firestore 데이터 배열에 포함된 ID 중 같은 데이터 찾기 (사용자가 작성한 게시글 중 해당 UID 게시글 찾기)
       const filterInfo = initialInfos.filter((info) => {
         if (info.email === atob(decode(paramEmail)) && info.id === paramId) {
           return info;
         }
       });
-      // filter를 이용해 (컬렉션 users 데이터에서)
+
       initialUsers.filter((user) => {
-        // 1. url 파라미터부분에 이메일과 firestore 데이터 배열로 가져온 이메일 중 같은 데이터 찾기 (게시물 작성한 사용자 찾기)
         if (user.email === atob(decode(paramEmail))) {
           setUserInfo({ ...user, ...filterInfo[0] });
         }
       });
-      // 사용자가 아닐때 수정,삭제가 안되게 하기 위해 버튼 display none
-      // 사용자일때 수정,삭제가 안되게 하기 위해 버튼 inline-block
+
       const userEmail = auth.currentUser.email;
       if (userEmail !== atob(decode(paramEmail))) {
         deleteIdRef.current.style.display = 'none';
@@ -86,7 +75,6 @@ function Detail() {
     fetchData();
   }, []);
 
-  // firestore 데이터 삭제 부분
   const {
     company,
     goodBad,
@@ -103,15 +91,13 @@ function Detail() {
 
   const deleteInfo = async (event) => {
     if (confirm('삭제하시겠습니까?')) {
-      // 컬렉션 중 infos 중 해당 e데이터 uid 삭제
       const todoRef = doc(db, 'infos', userInfo.id);
       await deleteDoc(todoRef);
-      // list 페이지로 이동
+
       navigate('/list');
     }
   };
 
-  // 리덕스 사용
   const editDetail = () => {
     dispatch({
       type: 'EDIT_DETAIL',
@@ -124,7 +110,6 @@ function Detail() {
     const infoRef = doc(db, 'infos', userInfo.id);
     await updateDoc(infoRef, { ...userInfo, like: updatedLike });
 
-    // 여기서 seUserInfo의 값을 바꿔줌에따라, 페이지가 리렌더링된다.
     setUserInfo((prevUserInfo) => ({ ...prevUserInfo, like: updatedLike }));
   };
   console.log(userInfo.length === 0 ? 'true' : 'false');
@@ -158,9 +143,7 @@ function Detail() {
           </div>
         ) : (
           <>
-            {/* my page 내용 */}
             <MyInfo>
-              {/* 추가부분 라이크 박스 */}
               <img src={imgFile ?? '/user.png'} alt="프로필 사진" />
               <div className="myInfo_text">
                 <StLikeSpan>
@@ -186,7 +169,7 @@ function Detail() {
               </div>
             </MyInfo>
             <StLineHr></StLineHr>
-            {/* write 내용 */}
+
             <InfoBox>
               <h2>{title}</h2>
               <dl>
@@ -208,7 +191,7 @@ function Detail() {
             </InfoBox>
           </>
         )}
-        {/* 수정, 삭제 버튼 */}
+
         <WriteBtn>
           <button
             className="editBtn"

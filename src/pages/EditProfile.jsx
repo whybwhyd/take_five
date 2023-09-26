@@ -28,22 +28,18 @@ function EditProfile() {
   const user = useSelector((state) => state.userInfo);
   const id = useSelector((state) => state.userId);
 
-  // 프로필 정보 변수들
   const [name, setName] = useState(user.name);
   const [nickName, setNickName] = useState(user.nickName);
   const [introduce, setIntroduce] = useState(user.introduce);
   const [spec, setSpec] = useState(user.spec);
   const [imgFile, setImgFile] = useState(user.imgFile);
 
-  // 페이지 렌더링시 fetchUserData 실행
   useEffect(() => {
     onAuthStateChanged(auth, (users) => {
-      console.log(users); // 사용자 인증 정보가 변경될 때마다 해당 이벤트를 받아 처리합니다.
+      console.log(users);
     });
     fetchUserData();
   }, []);
-
-  // firebase에서 users 컬렉션에서 현재 로그인 중인 계정의 email과 같은 문서를 쿼리해서 해당 계정의 데이터와 id 읽어오기
   const fetchUserData = async () => {
     const dbUsers = query(
       collection(db, 'users'),
@@ -62,7 +58,6 @@ function EditProfile() {
     dispatch(getUserId(...userId));
   };
 
-  // input 창에 값 입력시 변수값 저장하는 이벤트들
   const saveName = (event) => {
     setName(event.target.value);
   };
@@ -79,17 +74,15 @@ function EditProfile() {
     setSpec(event.target.value);
   };
 
-  // 이미지 업로드 input의 onChange 이벤트 함수
   const saveImgFile = async () => {
     const file = imgRef.current.files[0];
-    const reader = new FileReader(); // FileReader를 이용해 이미지 로드
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgFile(reader.result);
     };
   };
 
-  // 이미지 삭제 button의 onClick 이벤트함수
   const deleteImg = () => {
     setImgFile('');
   };
@@ -140,17 +133,14 @@ function EditProfile() {
           <br />
           <br />
         </div>
-        {/* // false = input이 클릭되어 있지 않을 때, true = input이 클릭되어 있을 때 */}
         <div className="editlist">
           <div className="divname">
             이름
             <input
               className="inputName"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedName(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedName(false);
               }}
@@ -166,11 +156,9 @@ function EditProfile() {
             닉네임
             <input
               className="inputNick"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedNick(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedNick(false);
               }}
@@ -186,11 +174,9 @@ function EditProfile() {
             소개글
             <input
               className="inputIntro"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedIntro(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedIntro(false);
               }}
@@ -206,11 +192,9 @@ function EditProfile() {
             자기 스펙
             <input
               className="inputSpec"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedSpec(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedSpec(false);
               }}
@@ -230,7 +214,6 @@ function EditProfile() {
           className="finishbtn"
           onClick={async () => {
             try {
-              // 5개의 값을 firebase의 users 컬렉션에 현재 로그인 계정의 데이터를 업데이트
               const updateInfoRef = doc(db, 'users', id.id);
               await updateDoc(updateInfoRef, {
                 name,

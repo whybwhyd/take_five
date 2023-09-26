@@ -20,7 +20,6 @@ function AddProfile() {
   let [isInputClickedIntro, setIsInputClickedIntro] = useState(false);
   let [isInputClickedSpec, setIsInputClickedSpec] = useState(false);
 
-  // 프로필 정보 변수들
   const [name, setName] = useState('');
   let [nickName, setNickName] = useState('');
   const [introduce, setIntroduce] = useState('');
@@ -30,20 +29,17 @@ function AddProfile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userInfo);
 
-  // useLocation을 이용해 Register(회원가입) 페이지에서 email과 nickName 값을 전달받기
   const location = useLocation();
   const email = location.state.email;
   nickName = location.state.nick;
 
-  // 페이지 렌더링시 fetchUserData 실행
   useEffect(() => {
     onAuthStateChanged(auth, (users) => {
-      console.log(users); // 사용자 인증 정보가 변경될 때마다 해당 이벤트를 받아 처리합니다.
+      console.log(users);
     });
     fetchUserData();
   }, []);
 
-  // firebase에서 users 컬렉션에서 회원가입때 입력한 email이 같은 계정의 데이터 읽어오기
   const fetchUserData = async () => {
     const dbUsers = query(collection(db, 'users'), where('email', '==', email));
 
@@ -72,9 +68,6 @@ function AddProfile() {
     setSpec(event.target.value);
   };
 
-  //
-
-  // 이미지 업로드 input의 onChange
   const saveImgFile = async () => {
     const file = imgRef.current.files[0];
     const reader = new FileReader();
@@ -132,21 +125,17 @@ function AddProfile() {
           <br />
           <br />
         </div>
-        {/* // false = input이 클릭되어 있지 않을 때, true = input이 클릭되어 있을 때 */}
         <div className="editlist">
           <div className="divname">
             이름
             <input
               className="inputName"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedName(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedName(false);
               }}
-              // placeholder의 내용을 해당 input을 클릭시 비우고 다른 곳을 클릭시 placeholder의 내용을 보이게 하기 위해 setIsInputClick~~() 를 이용
               placeholder={
                 isInputClickedName === true ? '' : '이름을 입력해주세요.'
               }
@@ -159,11 +148,9 @@ function AddProfile() {
             닉네임
             <input
               className="inputNick"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedNick(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedNick(false);
               }}
@@ -179,11 +166,9 @@ function AddProfile() {
             소개글
             <input
               className="inputIntro"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedIntro(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedIntro(false);
               }}
@@ -199,11 +184,9 @@ function AddProfile() {
             자기 스펙
             <input
               className="inputSpec"
-              // 클릭될 때 작동
               onFocus={() => {
                 setIsInputClickedSpec(true);
               }}
-              // 클릭되어 있지 않을 때 작동 input 이외의 영역이 클릭 되었을 때
               onBlur={() => {
                 setIsInputClickedSpec(false);
               }}
@@ -223,7 +206,6 @@ function AddProfile() {
           className="finishbtn"
           onClick={async () => {
             try {
-              // 5개의 값을 firebase의 users 컬렉션에서 회원가입한 해당 계정에 데이터를 저장
               const updateInfoRef = doc(db, 'users', user.id);
               await updateDoc(updateInfoRef, {
                 name,
