@@ -1,6 +1,6 @@
 # TalentConnect
 
-![Alt text](image-8.png)
+![Alt text](./src/images/image-8.png)
 
 TalentConnect는 자기 PR 서비스 웹페이지입니다.
 구인구직, 외주 등 자신이 원하는 역량을 펼칠 수 있게 도와드립니다.
@@ -62,7 +62,7 @@ TalentConnect는 자기 PR 서비스 웹페이지입니다.
 
 ## 서비스 아키텍쳐
 
-![Alt text](image.png)
+![Alt text](./src/images/image.png)
 
 ## 기술스택
 
@@ -88,19 +88,19 @@ TalentConnect는 자기 PR 서비스 웹페이지입니다.
 
 <b>💙 메인 페이지 </b>
 
-![Alt text](image-1.png)
+![Alt text](./src/images/image-1.png)
 
 로그인이 가능하며 회원가입 페이지로 이동이 가능합니다.
 
 <b>💙 회원가입</b>
 
-![Alt text](image-2.png)
+![Alt text](./src/images/image-2.png)
 
 실시간 유효성 검사로 회원가입을 진행합니다.
 
 <b>💙 글 목록 페이지</b>
 
-![Alt text](image-3.png)
+![Alt text](./src/images/image-3.png)
 
 게시물들을 뉴스피드 형식으로 한눈에 볼 수 있습니다. 최신순, 좋아요 순으로 볼 수 있습니다.
 
@@ -108,11 +108,11 @@ TalentConnect는 자기 PR 서비스 웹페이지입니다.
 
 <b>💙 게시글 디테일 페이지</b>
 
-![Alt text](image-4.png)
+![Alt text](./src/images/image-4.png)
 
 자기 pr에 대해 사용자들이 답한 게시글 상세 페이지를 볼 수 있습니다.
 
 <b>💙 마이페이지</b>
 
-![Alt text](image-5.png)
+![Alt text](./src/images/image-5.png)
 마이페이지에서는 프로필 수정 및 게시글 삭제, 사용자가 쓴 글의 개수 및 좋아요 개수를 확인할 수 있습니다.
